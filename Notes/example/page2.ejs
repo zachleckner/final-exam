@@ -1,0 +1,82 @@
+<container class="vContainer">
+    <column class="column">
+        <row class="row">
+            <p>
+                SWE 432
+                <a>Student</a>
+                <a>Contact</a>
+            </p>
+        </row>
+        <row class="row">
+            <container class="eContainer">
+                <column class="columnB">
+                    <row class="rowB">
+                        <ul>
+                            <li>Name: <span id="nameField"></span></li>
+                            <li>G-Number: <span id="gNumberField"></span></li>
+                            <li>E-mail: <span id="emailField"></span></li>
+                        </ul>
+                    </row>
+                    <row class="rowB">
+                        <form id="myForm" onsubmit="return validateForm()">
+                            <table>
+                                <tr>
+                                    <td>Textarea</td>
+                                    <td><textarea name="textarea_input" rows="4" cols="50" required></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>Submit Button</td>
+                                    <td>
+                                        <input type="submit" value="Submit">
+                                        <input type="reset" value="Clear">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>     
+                    </row>
+                </column>
+            </container>
+        </row>
+        <row class="row">
+            @Copyright 2023 GMU
+        </row>
+    </column>
+    <script>
+        // Function to retrieve cookie value
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve cookie data
+            const username = getCookie('username');
+            const gNumber = getCookie('gNumber');
+            const email = getCookie('email');
+            
+            if (!username || !gNumber || !email) {
+                alert("You must log in to access this page.");
+                return;
+            }
+            
+            // Fill out the form fields
+            document.getElementById('nameField').innerText = username;
+            document.getElementById('gNumberField').innerText = gNumber;
+            document.getElementById('emailField').innerText = email;
+        });
+    </script>    
+    <script>        
+        async function validateForm() {
+            var inputs = document.querySelectorAll('input, textarea, select');
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].checkValidity()) {
+                    alert("Please fill out all fields.");
+                    return false;
+                }
+            }
+            alert("Form submitted successfully!");
+            return false; 
+        }
+    </script>     
+</container>

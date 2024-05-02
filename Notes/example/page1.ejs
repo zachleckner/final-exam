@@ -1,0 +1,90 @@
+<container class="vContainer">
+    <column class="column">
+        <row class="row">
+            <p>
+                SWE 432
+                <a>Student</a>
+                <a>Contact</a>
+            </p>
+        </row>
+        <row class="row">
+            <form id="myForm">
+                <table>
+                    <tr>
+                        <th>Type</th>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" name="username" required></td>
+                    </tr>
+                    <tr>
+                        <td>G-Number:</td>
+                        <td><input type="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail:</td>
+                        <td><input type="email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td>Submit Button</td>
+                        <td>
+                            <input type="submit" value="Submit">
+                            <input type="reset" value="Clear">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <button id="logoutButton">Logout</button> <!-- Added logout button -->
+            <script>
+                document.getElementById("myForm").addEventListener("submit", async function(event) {
+                    event.preventDefault(); 
+                    const form = event.target;
+                    const formData = new FormData(form);
+                    let valid = true;
+                    formData.forEach((value, key) => {
+                        if (!value) {
+                            valid = false;
+                            alert(`Please fill out ${key} field`);
+                        }
+                    });
+                    if (valid) {
+                        // Set cookie with form data
+                        await fetch(`/skema10`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                username: formData.get('username'),
+                                gNumber: formData.get('password'),
+                                email: formData.get('email')
+                            })
+                        });
+
+                        document.cookie = `username=${formData.get('username')}`;
+                        document.cookie = `gNumber=${formData.get('password')}`;
+                        document.cookie = `email=${formData.get('email')}`;
+
+                        console.log("Form submitted successfully:", formData);
+                        // Redirect to page2
+                    }
+
+                });
+
+                // Logout button functionality
+                document.getElementById("logoutButton").addEventListener("click", function() {
+                    // Clear cookies
+                    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "gNumber=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    
+                    // Redirect to logout page or login page
+                    window.location.href = "/logout"; // Change to your logout page URL
+                });
+            </script>
+        </row>
+        <row class="row">
+            @Copyright 2023 GMU
+        </row>
+    </column>
+</container>
